@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useFormik } from "formik";
 import PizzaSize from "./PizzaSize";
 import PizzaCrust from "./PizzaCrust";
@@ -6,6 +7,7 @@ import PizzaToppings from "./PizzaToppings";
 import Name from "./Name";
 import Note from "./Note";
 import data from "../../utils/data";
+import Summary from "./Summary";
 
 const OrderForm = () => {
   const { basePrices, calculatePrice } = data;
@@ -20,23 +22,35 @@ const OrderForm = () => {
       name: "",
       note: "",
     },
-    onSubmit: (values) => {
-      const valuesWithPrice = {
-        ...values, totalPrice: totalPrice
-      }
-      alert(JSON.stringify(valuesWithPrice,null,2))
+    onSubmit: (values, { setSubmitting }) => {
+      // Form verilerini ve toplam fiyatı içeren nesneyi oluştur
+      const orderDetails = {
+        ...values,
+        count, // Sipariş adedi
+        totalPrice, // Toplam fiyat
+      };
+
+      // API adresi
+      const apiUrl = 'https://reqres.in/api/pizza';
+
+      // Axios ile POST isteği gönder
+      axios.post(apiUrl, orderDetails)
+        .then(response => {
+          console.log('Sipariş başarıyla gönderildi:', response.data);
+          // İsteğin başarılı olduğuna dair bir mesaj gösterebilirsiniz.
+        })
+        .catch(error => {
+          console.error('Sipariş gönderimi sırasında bir hata oluştu:', error);
+          // İsteğin başarısız olduğuna dair bir mesaj gösterebilirsiniz.
+        })
+        .finally(() => {
+          setSubmitting(false); // Gönderim durumunu güncelle
+        });
     },
   });
   useEffect(() => {
-    setTotalPrice(
-      calculatePrice(
-        formik.values.size,
-        formik.values.toppings,
-        basePrices,
-        count
-      )
-    );
-  },[formik.values]);
+    setTotalPrice(calculatePrice(formik.values, basePrices, count));
+  }, [formik.values, count]);
   return (
     <div>
       <form onSubmit={formik.handleSubmit}>
@@ -54,10 +68,12 @@ const OrderForm = () => {
         />
         <Note note={formik.values.note} onNoteChange={formik.handleChange} />
         <Name name={formik.values.name} onNameChange={formik.handleChange} />
-        <h2>{`Total Price:${totalPrice}`}</h2>
-        <button className=" ml-4 p-4 bg-slate-500" type="submit">
-          Submit
-        </button>
+        <Summary
+          toppings={formik.values.toppings}
+          totalPrice={totalPrice}
+          count={count}
+          setCount={setCount}
+        />
       </form>
     </div>
   );

@@ -19,9 +19,9 @@ const data = {
     medium: 95,
     large: 105,
   },
-  calculatePrice: (values, toppings, basePrices, count) => {
+  calculatePrice: (values, basePrices, count) => {
     let price = 0;
-    switch (values) {
+    switch (values.size) {
       case "small":
         price += basePrices.small;
         break;
@@ -34,8 +34,10 @@ const data = {
         break;
     }
     //to do: hamur kalinligına göre fiyat!
-    price+= toppings.length*5
-    price*=count
+    price += values.crust === "thick" ? 10 : 0;
+
+    price += values.toppings.length * 5;
+    price *= count;
     return price;
   },
 };
