@@ -2,9 +2,9 @@ import React from 'react'
 
 const Note = ({note,onNoteChange}) => {
   return (
-    <div className='p-4'>
-      <h2 className='font-bold'>Sipariş Notu</h2>
-      <input className='w-[55%] h-10 border-2 border-gray-950' type="text"
+    <div className='w-[650px] mx-auto'>
+      <h2 className='font-bold mt-4'>Sipariş Notu</h2>
+      <input className='w-full h-10 border-2 border-gray-950' type="text"
       name='note'
       value={note}
       onChange={onNoteChange}

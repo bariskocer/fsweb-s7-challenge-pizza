@@ -1,14 +1,21 @@
 import OrderForm from "./components/formComponents/OrderForm"
-import HomaPage from "./pages/HomaPage"
+import Success from "./components/formComponents/Success";
+import HomePage from "./pages/HomePage"
 
-// import './App.css'
-OrderForm
+import { BrowserRouter as Router, Route, Switch,} from "react-router-dom";
+
 
 function App() {
 
   return (
     <>
-     <HomaPage/>
+     <Router>
+      <Switch>
+        <Route exact path="/" component={HomePage}/>
+        <Route path="/order" component={OrderForm}/>
+        <Route path="/success" component={Success}/>
+      </Switch>
+     </Router>
     </>
   )
 }

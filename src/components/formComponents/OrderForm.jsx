@@ -8,6 +8,8 @@ import Name from "./Name";
 import Note from "./Note";
 import data from "../../utils/data";
 import Summary from "./Summary";
+import Header from "../shared/Header";
+import Info from "./Info";
 
 const OrderForm = () => {
   const { basePrices, calculatePrice } = data;
@@ -53,15 +55,21 @@ const OrderForm = () => {
   }, [formik.values, count]);
   return (
     <div>
+      <Header/>
+      <Info />
       <form onSubmit={formik.handleSubmit}>
+        <div className="flex w-[650px] justify-between mx-auto">
         <PizzaSize
           selectedSize={formik.values.size}
           onSizeChange={formik.handleChange}
         />
-        <PizzaCrust
+       <div className="mr-20">
+       <PizzaCrust
           selectedCrust={formik.values.crust}
           onCrustChange={formik.handleChange}
         />
+       </div>
+        </div>
         <PizzaToppings
           toppings={formik.values.toppings}
           onToppingsChange={formik.handleChange}

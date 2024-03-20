@@ -5,7 +5,6 @@ const PizzaToppings = ({toppings,onToppingsChange}) => {
         "Domates",
         "Sosis",
         "Mısır",
-        "Mantar",
         "Kanada Jambonu",
         "Sucuk",
         "Tavuk İzgara",
@@ -16,23 +15,28 @@ const PizzaToppings = ({toppings,onToppingsChange}) => {
         "Sarımsak",
       ]
   return (
-    <div className='p-4'>
+    <div className='w-[650px] mx-auto'>
+        <div className='mb-2 flex flex-col gap-3'>
         <h3 className='font-bold'>Ek Malzemeler</h3>
         <p>En fazla 10 malzeme şeçebilirsiniz. 5₺</p>
+        </div>
+        <div className='grid grid-cols-3  gap-y-2'>
         {
             toppingsOptions.map((topping,index)=>(
-                <div key={index}>
-                    <input type="checkbox"
+                <div className='p-2 w-29' key={index}>
+                    <input  type="checkbox"
                     id={`topping-${index}`}
                     name='toppings'
                     value={topping}
                     checked={toppings.includes(topping)}
                     onChange={onToppingsChange}
                     />
-                    <label htmlFor={`topping-${index}`}>{topping}</label>
+                    <label className='m-3' htmlFor={`topping-${index}`}>{topping}</label>
                 </div>
             ))
         }
+        </div>
+        
     </div>
   )
 }
